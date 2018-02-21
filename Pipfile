@@ -7,6 +7,10 @@ name = "pypi"
 
 [packages]
 
+"psycopg2" = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+flask = "*"
 
 
 [dev-packages]
