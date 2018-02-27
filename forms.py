@@ -13,3 +13,15 @@ class signup_form(FlaskForm):
 class login_form(FlaskForm):
     username = StringField('username', validators=[DataRequired()])
     first_name = StringField('password', validators=[DataRequired()])
+
+class personal_information(FlaskForm):
+    dob_month = StringField('month', validators=[DataRequired()])
+    dob_year = StringField('year', validators=[DataRequired()])
+    current_location = StringField('location', validators=[DataRequired()])
+    ethnicity = StringField('ethnicity', validators=[DataRequired()])
+    income = IntegerField('income', validators=[DataOptional()])
+
+class cancer_information(FlaskForm):
+    cancer_type = RadioField('cancer_type', choices=[('1', 'Breast Cancer'),('2', 'Other')], validators=[DataRequired()])
+    diagnosis_date_year = IntegerField('diagnosis_date', validators=[DataRequired()])
+    cancer_stage = RadioField('cancer_stage', choices=[('1', 'Stage 1'), ('2', 'Stage 2'), ('3', 'Stage 3'), ('4', 'Other')], validators=[DataRequired()])
