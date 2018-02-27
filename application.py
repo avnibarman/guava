@@ -11,7 +11,7 @@ import pytz
 
 logging.basicConfig(level=logging.DEBUG)
 
-app = Flask(__name__)
+application = Flask(__name__)
 secret_key = ""
 with open ("aws-key.pem", "r") as myfile:
     secret_key = myfile.read()
@@ -24,16 +24,16 @@ Config = {
     'SQLALCHEMY_DATABASE_URI': 'postgresql://dre:disruption@cbdb.cjvamjemslrm.us-west-1.rds.amazonaws.com:5432/cbdb'
 }
 
-app.config.update(dict(
+application.config.update(dict(
     SECRET_KEY=secret_key,
     WTF_CSRF_SECRET_KEY="a csrf secret key",
     SQLALCHEMY_DATABASE_URI='postgresql://dre:disruption@cbdb.cjvamjemslrm.us-west-1.rds.amazonaws.com:5432/cbdb',
     DEBUG=True
 ))
 
-app.config.from_object(Config)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+application.config.from_object(Config)
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(application)
 print("hello world!")
 
 
@@ -67,7 +67,7 @@ class User_Info(db.Model):
         return '<id {}>'.format(self.id)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@application.route('/', methods=['GET', 'POST'])
 def hello_world():
     if request.method == 'POST':
         print(request.json)
@@ -76,7 +76,7 @@ def hello_world():
         return current_app.send_static_file('index.html')
 
 
-@app.route('/signup', methods=('GET', 'POST'))
+@application.route('/signup', methods=('GET', 'POST'))
 def submit():
     print("on submit page")
     form = signup_form()
@@ -90,6 +90,6 @@ def submit():
     return render_template('signup_form.html', form=form)
 
 
-# @app.route('/signed_in')
+# @application.route('/signed_in')
 # def submit():
 #     return "Successfully created account! Yay!"
