@@ -1,1 +1,3 @@
-hello
+.invisible {
+  visibility: hidden;
+}
