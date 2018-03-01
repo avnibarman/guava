@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+<script>
+</script>
+
+  <form method="POST" action="/">
+      {{ form.hidden_tag() }}
+      {{ form.dob_month.label }} {{ form.dob_month(size=20) }}
+      {{ form.dob_year.label }} {{ form.dob_year(size=20) }}
+      {{ form.current_location.label }} {{ form.current_location(size=20) }}
+      {{ form.ethnicity.label }} {{ form.ethnicity(size=20) }}
+      {{ form.income.label }} {{ form.income(size=20) }}
+
+      <input type="submit" value="Submit">
+  </form>
+
+{% endblock %}

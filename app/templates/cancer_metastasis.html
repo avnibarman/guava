@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+<script>
+</script>
+
+  <form method="POST" action="/">
+      {{ form.hidden_tag() }}
+      {{ form.metastatis_boolean.label }} {{ form.metastatis_boolean(size=20) }}
+      {{ form.metastasis_site.label }} {{ form.metastasis_site(size=20) }}
+      {{ form.metastasis_diagnosis_date_year.label }} {{ form.metastasis_diagnosis_date_year(size=20) }}
+
+      <input type="submit" value="Submit">
+  </form>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+<script>
+</script>
+
+  <form method="POST" action="/">
+      {{ form.hidden_tag() }}
+      {{ form.cancer_type.label }} {{ form.cancer_type(size=20) }}
+      {{ form.diagnosis_date_year.label }} {{ form.diagnosis_date_year(size=20) }}
+      {{ form.cancer_stage.label }} {{ form.cancer_stage(size=20) }}
+
+      <input type="submit" value="Submit">
+  </form>
+
+{% endblock %}
