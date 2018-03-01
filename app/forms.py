@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField
-from wtforms.validators import DataRequired
+from wtforms import StringField, IntegerField, RadioField
+from wtforms.validators import DataRequired, Optional
 
 class signup_form(FlaskForm):
     email = StringField('email', validators=[DataRequired()])
@@ -19,7 +19,7 @@ class personal_information(FlaskForm):
     dob_year = StringField('year', validators=[DataRequired()])
     current_location = StringField('location', validators=[DataRequired()])
     ethnicity = StringField('ethnicity', validators=[DataRequired()])
-    income = IntegerField('income', validators=[DataOptional()])
+    income = IntegerField('income', validators=[Optional()])
 
 class cancer_information(FlaskForm):
     cancer_type = RadioField('cancer_type', choices=[('1', 'Breast Cancer'),('2', 'Other')], validators=[DataRequired()])

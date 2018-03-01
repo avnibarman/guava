@@ -2,38 +2,22 @@ from flask import Flask, current_app, request, render_template
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
-from .forms import signup_form, login_form
+import app.forms as forms
+# import signup_form, login_form
 import os
 from flask_sqlalchemy import SQLAlchemy
 import logging
 from datetime import datetime
 import pytz
+import app.config as config
 
 logging.basicConfig(level=logging.DEBUG)
 
-app = Flask(__name__)
-secret_key = ""
-with open ("aws-key.pem", "r") as myfile:
-    secret_key = myfile.read()
-Config = {
-    'DEBUG': True,
-    'TESTING': False,
-    'CSRF_ENABLED': True,
-    'SECRET_KEY': secret_key,
-    'WTF_CSRF_SECRET_KEY': 'a csrf secret key',
-    'SQLALCHEMY_DATABASE_URI': 'postgresql://dre:disruption@cbdb.cjvamjemslrm.us-west-1.rds.amazonaws.com:5432/cbdb'
-}
+application = Flask(__name__)
 
-app.config.update(dict(
-    SECRET_KEY=secret_key,
-    WTF_CSRF_SECRET_KEY="a csrf secret key",
-    SQLALCHEMY_DATABASE_URI='postgresql://dre:disruption@cbdb.cjvamjemslrm.us-west-1.rds.amazonaws.com:5432/cbdb',
-    DEBUG=True
-))
-
-app.config.from_object(Config)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+application.config.from_object(config)
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(application)
 print("hello world!")
 
 
@@ -67,7 +51,7 @@ class User_Info(db.Model):
         return '<id {}>'.format(self.id)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@application.route('/', methods=['GET', 'POST'])
 def hello_world():
     if request.method == 'POST':
         print(request.json)
@@ -76,10 +60,10 @@ def hello_world():
         return current_app.send_static_file('index.html')
 
 
-@app.route('/signup', methods=('GET', 'POST'))
+@application.route('/signup', methods=('GET', 'POST'))
 def submit():
     print("on submit page")
-    form = signup_form()
+    form = forms.signup_form()
     if form.validate_on_submit():
         print(form.email.data)
         print("submitted!")
@@ -90,6 +74,6 @@ def submit():
     return render_template('signup_form.html', form=form)
 
 
-# @app.route('/signed_in')
+# @application.route('/signed_in')
 # def submit():
 #     return "Successfully created account! Yay!"
