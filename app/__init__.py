@@ -23,7 +23,7 @@ print("hello world!")
 
 
 class User_Info(db.Model):
-    __tablename__ = 'results'
+    __tablename__ = 'user_info'
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(355), unique=True, nullable=False)
@@ -46,6 +46,28 @@ class User_Info(db.Model):
         pst = pytz.timezone('America/Los_Angeles')
         self.created_on = pst.localize(now)
         self.last_login = None
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
+
+class Personal_Information(db.Model):
+    __tablename__ = 'personal_info'
+
+    id = db.Column(db.Integer, primary_key=True)
+    dob = db.Column(db.Integer(50), nullable=False)
+    current_location = db.Column(db.String(255))
+    ethnicity = db.Column(db.String(50), nullable=True)
+    income = db.Column(db.Integer(50), nullable=True)
+    created_on = db.Column(db.TIMESTAMP)
+
+    def __init__(self, dob, current_location, ethnicity, income):
+        self.dob = email
+        self.current_location = current_location
+        self.ethnicity = ethnicity
+        self.income = income
+        now = datetime.now()
+        pst = pytz.timezone('America/Los_Angeles')
+        self.created_on = pst.localize(now)
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
@@ -78,14 +100,14 @@ def submit():
 # def submit():
 #     return "Successfully created account! Yay!"
 
-@application.route('/personal', methods=('GET', 'POST'))
-def submit():
-    form = forms.personal_information()
-    if form.validate_on_submit():
-        print(form.email.data)
-        print("submitted!")
-        new_user = User_Info(form.email.data, form.password.data, form.username.data, form.first_name.data, form.last_name.data, form.cancer_type.data)
-        db.session.add(new_user)
-        db.session.commit()
-        # return redirect('/success')
-    return render_template('signup_form.html', form=form)
+# @application.route('/personal', methods=('GET', 'POST'))
+# def submit():
+#     form = forms.personal_information()
+#     if form.validate_on_submit():
+#         print(form.email.data)
+#         print("submitted!")
+#         new_user = User_Info(form.email.data, form.password.data, form.username.data, form.first_name.data, form.last_name.data, form.cancer_type.data)
+#         db.session.add(new_user)
+#         db.session.commit()
+#         # return redirect('/success')
+#     return render_template('signup_form.html', form=form)
