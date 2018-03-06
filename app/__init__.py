@@ -77,3 +77,15 @@ def submit():
 # @application.route('/signed_in')
 # def submit():
 #     return "Successfully created account! Yay!"
+
+@application.route('/personal', methods=('GET', 'POST'))
+def submit():
+    form = forms.personal_information()
+    if form.validate_on_submit():
+        print(form.email.data)
+        print("submitted!")
+        new_user = User_Info(form.email.data, form.password.data, form.username.data, form.first_name.data, form.last_name.data, form.cancer_type.data)
+        db.session.add(new_user)
+        db.session.commit()
+        # return redirect('/success')
+    return render_template('signup_form.html', form=form)

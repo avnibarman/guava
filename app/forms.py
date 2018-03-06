@@ -15,8 +15,7 @@ class login_form(FlaskForm):
     first_name = StringField('password', validators=[DataRequired()])
 
 class personal_information(FlaskForm):
-    dob_month = StringField('month', validators=[DataRequired()])
-    dob_year = StringField('year', validators=[DataRequired()])
+    dob = StringField('date_of_birth', validators=[DataRequired()])
     current_location = StringField('location', validators=[DataRequired()])
     ethnicity = StringField('ethnicity', validators=[DataRequired()])
     income = IntegerField('income', validators=[Optional()])
