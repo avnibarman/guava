@@ -1,0 +1,12 @@
+2018-03-01 09:57:12.752 PST [59267] FATAL:  database files are incompatible with server
+2018-03-01 09:57:12.752 PST [59267] DETAIL:  The data directory was initialized by PostgreSQL version 9.5, which is not compatible with this version 10.2.
+2018-03-01 09:57:38.197 PST [59285] LOG:  listening on IPv6 address "::1", port 5432
+2018-03-01 09:57:38.197 PST [59285] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2018-03-01 09:57:38.197 PST [59285] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2018-03-01 09:57:38.209 PST [59286] LOG:  database system was shut down at 2018-03-01 09:57:23 PST
+2018-03-01 09:57:38.212 PST [59285] LOG:  database system is ready to accept connections
+2018-03-01 09:58:10.970 PST [59306] ERROR:  role "postgres" does not exist
+2018-03-01 09:58:10.970 PST [59306] STATEMENT:  CREATE DATABASE testdb OWNER postgres;
+2018-03-01 10:01:50.619 PST [59447] FATAL:  database "Landon" does not exist
+2018-03-01 10:03:29.359 PST [59467] ERROR:  database "testdb" already exists
+2018-03-01 10:03:29.359 PST [59467] STATEMENT:  CREATE DATABASE testdb OWNER "Landon";

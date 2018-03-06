@@ -26,6 +26,9 @@ SECRET_KEY = "secret"
 SECRET_KEY=secret_key
 WTF_CSRF_SECRET_KEY="a csrf secret key"
 
-SQLALCHEMY_DATABASE_URI='postgresql://dre:disruption@cbdb.cjvamjemslrm.us-west-1.rds.amazonaws.com:5432/cbdb'
+SQLALCHEMY_DATABASE_URI='postgresql://localhost/cbdblocal'
 
 DEBUG=True
+
+if "PRODUCTION" in os.environ == 1:
+    SQLALCHEMY_DATABASE_URI='postgresql://dre:disruption@aa3gb6uniecu4v.cjvamjemslrm.us-west-1.rds.amazonaws.com:5432/cbdb'

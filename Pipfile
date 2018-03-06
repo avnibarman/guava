@@ -13,6 +13,7 @@ flask-migrate = "*"
 flask = "*"
 flask-wtf = "*"
 pytz = "*"
+flask-script = "*"
 
 
 [dev-packages]
