@@ -23,7 +23,7 @@ print("hello world!")
 
 
 class User_Info(db.Model):
-    __tablename__ = 'user_info'
+    __tablename__ = 'results'
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(355), unique=True, nullable=False)
@@ -54,14 +54,14 @@ class Personal_Information(db.Model):
     __tablename__ = 'personal_info'
 
     id = db.Column(db.Integer, primary_key=True)
-    dob = db.Column(db.Integer(50), nullable=False)
+    dob = db.Column(db.Integer, nullable=False)
     current_location = db.Column(db.String(255))
     ethnicity = db.Column(db.String(50), nullable=True)
-    income = db.Column(db.Integer(50), nullable=True)
+    income = db.Column(db.Integer, nullable=True)
     created_on = db.Column(db.TIMESTAMP)
 
     def __init__(self, dob, current_location, ethnicity, income):
-        self.dob = email
+        self.dob = dob
         self.current_location = current_location
         self.ethnicity = ethnicity
         self.income = income
@@ -100,14 +100,14 @@ def submit():
 # def submit():
 #     return "Successfully created account! Yay!"
 
-# @application.route('/personal', methods=('GET', 'POST'))
-# def submit():
-#     form = forms.personal_information()
-#     if form.validate_on_submit():
-#         print(form.email.data)
-#         print("submitted!")
-#         new_user = User_Info(form.email.data, form.password.data, form.username.data, form.first_name.data, form.last_name.data, form.cancer_type.data)
-#         db.session.add(new_user)
-#         db.session.commit()
-#         # return redirect('/success')
-#     return render_template('signup_form.html', form=form)
+@application.route('/personal', methods=('GET', 'POST'))
+def submit2():
+    print("on submit page")
+    form = forms.personal_information()
+    if form.validate_on_submit():
+        print(form.income.data)
+        print("done!")
+        new_user = Personal_Information(form.dob.data, form.current_location.data, form.ethnicity.data, form.income.data)
+        db.session.add(new_user)
+        db.session.commit()
+    return render_template('personal_information.html', form=form)
