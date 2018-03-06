@@ -28,6 +28,6 @@ class cancer_information(FlaskForm):
 
 class cancer_metastasis(FlaskForm):
     metastatis_boolean = RadioField('metastatis_boolean', choices=[('1', 'yes'),('2', 'no')], validators=[DataRequired()])
-    metastasis_site = SelectMultipleField('Sites of Metastasis', choices=[('liver', 'Liver'), ('asophogus', 'Asophogus'), ('liver', 'Liver')])
+    # metastasis_site = SelectMultipleField('Sites of Metastasis', choices=[('liver', 'Liver'), ('esophogus', 'Esophogus'), ('liver', 'Liver')])
     metastasis_diagnosis_date_year = IntegerField('metastasis_diagnosis_date', validators=[DataRequired()])
     stage = IntegerField('stage', validators=[DataRequired()])

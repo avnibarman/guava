@@ -14,6 +14,7 @@ flask = "*"
 flask-wtf = "*"
 pytz = "*"
 flask-script = "*"
+requests = "*"
 
 
 [dev-packages]

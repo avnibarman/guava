@@ -67,7 +67,7 @@ def submit():
     if form.validate_on_submit():
         print(form.email.data)
         print("submitted!")
-        new_user = User_Info(form.email, form.password, form.username, form.first_name, form.last_name, form.cancer_type)
+        new_user = User_Info(form.email.data, form.password.data, form.username.data, form.first_name.data, form.last_name.data, form.cancer_type.data)
         db.session.add(new_user)
         db.session.commit()
         # return redirect('/success')
