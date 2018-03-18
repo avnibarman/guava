@@ -31,4 +31,4 @@ SQLALCHEMY_DATABASE_URI='postgresql://localhost/cbdblocal'
 DEBUG=True
 
 if "PRODUCTION" in os.environ:
-    SQLALCHEMY_DATABASE_URI='postgresql://dre:disruption@aa3gb6uniecu4v.cjvamjemslrm.us-west-1.rds.amazonaws.com:5432/ebdb'
+    SQLALCHEMY_DATABASE_URI='postgresql://dre:disruption@ aa2qmlw8zausf5.cjvamjemslrm.us-west-1.rds.amazonaws.com:5432/ebdb'
