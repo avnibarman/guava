@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
+
 <script>
   beginOnboarding = function () {
     document.getElementById("onboarding").classList.remove("invisible")
@@ -8,19 +9,14 @@
 </script>
 
   <form method="POST" action="/signup">
-    <!-- <div id="beginning"> -->
       {{ form.hidden_tag() }}
-      {{ form.email.label }} {{ form.email(size=20) }}
-      {{ form.password.label }} {{ form.password(size=20) }}
-    <!-- </div> -->
-    <!-- <a href="#" onclick="beginOnboarding()">Continue</a> -->
-    <!-- <div id="onboarding" class="invisible"> -->
+      <div class="form-label">{{ form.email.label }}</div> <div class="input-box">{{ form.email(size=20) }}</div>
+      <div class="form-label">{{ form.password.label }}</div> <div class="input-box">{{ form.password(size=20) }}</div>
       {{ form.username.label }} {{ form.username(size=20) }}
       {{ form.first_name.label }} {{ form.first_name(size=20) }}
       {{ form.last_name.label }} {{ form.last_name(size=20) }}
       {{ form.cancer_type.label }} {{ form.cancer_type(size=20) }}
       <input type="submit" value="Submit">
-    <!-- </div> -->
   </form>
 
 {% endblock %}
