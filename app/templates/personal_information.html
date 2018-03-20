@@ -2,15 +2,20 @@
 {% block body %}
 <script>
 </script>
+ <div class='mainbox'>
+    <strong>Create Your Account</strong><br>
+
+    <br>
 
   <form method="POST" action="/personal">
-      {{ form.hidden_tag() }}
-      {{ form.dob.label }} {{ form.dob(size=20) }}
-      {{ form.current_location.label }} {{ form.current_location(size=20) }}
-      {{ form.ethnicity.label }} {{ form.ethnicity(size=20) }}
-      {{ form.income.label }} {{ form.income(size=20) }}
+      <div class="input-box">{{ form.hidden_tag() }}</div>
+      <div class="input-box">{{ form.dob(size=20, placeholder="Date of Birth") }}</div>
+      <div class="input-box"> {{ form.current_location(size=20, placeholder="Location") }}</div>
+      <div class="input-box"> {{ form.ethnicity(size=20, placeholder="Ethnicity") }}</div>
+      <div class="input-box"> {{ form.income(size=20, placeholder="Income") }}</div>
 
       <input type="submit" value="Submit">
   </form>
+</div>
 
 {% endblock %}

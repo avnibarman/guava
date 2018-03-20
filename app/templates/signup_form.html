@@ -7,15 +7,20 @@
     console.log("wowow")
   }
 </script>
-
+  <div class='mainbox'>
+    <strong>Create Your Account</strong><br>
+    <span style="color: #808080; font-size: 12pt;">Sign up to build your memoir and keep track of your condition.</span>
+    <br>
   <form method="POST" action="/signup">
       {{ form.hidden_tag() }}
-      <div class="form-label">{{ form.email.label }}</div> <div class="input-box">{{ form.email(size=20) }}</div>
-      <div class="form-label">{{ form.password.label }}</div> <div class="input-box">{{ form.password(size=20) }}</div>
-      {{ form.username.label }} {{ form.username(size=20) }}
-      {{ form.first_name.label }} {{ form.first_name(size=20) }}
-      {{ form.last_name.label }} {{ form.last_name(size=20) }}
-      {{ form.cancer_type.label }} {{ form.cancer_type(size=20) }}
+      <br>
+      <div class="input-box">{{ form.email(size=20, placeholder="Email") }}</div>
+      <div class="input-box"> {{ form.username(size=20, placeholder="Username") }}</div>
+      <div class="input-box"> {{ form.password(size=20, placeholder="Password") }}</div>
+       <div class="input-box"> {{ form.first_name(size=20, placeholder="First Name") }}</div>
+       <div class="input-box">{{ form.last_name(size=20, placeholder="Last Name") }}</div>
+       <div class="input-box"> {{ form.cancer_type(size=20, placeholder="Cancer Type") }}</div>
+       <br>
       <input type="submit" value="Submit">
   </form>
 
