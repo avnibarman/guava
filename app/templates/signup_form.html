@@ -1,10 +1,25 @@
 {% extends "layout.html" %}
 {% block body %}
+<<<<<<< HEAD
 
   <form method="POST" action="/signup">
       {{ form.hidden_tag() }}
       {{ form.email.label }} {{ form.email(size=20) }}
       {{ form.password.label }} {{ form.password(size=20) }}
+=======
+
+<script>
+  beginOnboarding = function () {
+    document.getElementById("onboarding").classList.remove("invisible")
+    console.log("wowow")
+  }
+</script>
+
+  <form method="POST" action="/signup">
+      {{ form.hidden_tag() }}
+      <div class="form-label">{{ form.email.label }}</div> <div class="input-box">{{ form.email(size=20) }}</div>
+      <div class="form-label">{{ form.password.label }}</div> <div class="input-box">{{ form.password(size=20) }}</div>
+>>>>>>> origin/master
       {{ form.username.label }} {{ form.username(size=20) }}
       {{ form.first_name.label }} {{ form.first_name(size=20) }}
       {{ form.last_name.label }} {{ form.last_name(size=20) }}
