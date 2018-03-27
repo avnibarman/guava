@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="dashboard-wrap">
+  <div class="sidebar">
+      <ul>
+        <h4>{{ current_user.first_name }}</h4>
+        <li><a>Journal</a></li>
+        <div class="journal-subtype">
+          <li><a class="current-page">Daily</a></li>
+          <li><a>Memoir</a></li>
+        </div>
+        <li><a>Calendar</a></li>
+        <li><a>Memories</a></li>
+      </ul>
+  </div>
+  <div class="dashboard-box-outer">
+    <div class="dashboard-box">
+      <div class="date-hero">
+        {{today_formatted}}
+      </div>
+      <form method="POST" action="/daily_checkin">
+        {{ form.hidden_tag() }}
+        <h3>How are you feeling today?</h3>
+        <div class="clickable-faces">
+          {% for subfield in form.subjective_wellbeing %}
+            <label class="face">
+              {{ subfield }}
+              <img src="{{ url_for('static', filename='img/faces/1.png') }}"/>
+            </label>
+          {% endfor %}
+        </div>
+
+        <hr>
+
+        <h3>Rate your physical feelings on a scale of 1-5.</h3>
+        <div class="scale-container">
+          <div class="scale-item">
+            <h4>Energy</h4>
+            <div>{{ form.energy(min=1, max=5) }}</div>
+            <div><output for="energy" id="energy-label">{{ form.energy.data }}</output></div>
+          </div>
+          <div class="scale-item">
+            <h4>Appetite</h4>
+            <div>{{ form.appetite(min=1, max=5) }}</div>
+            <div><output for="appetite" id="appetite-label">{{ form.appetite.data }}</output></div>
+          </div>
+          <div class="scale-item">
+            <h4>Dizziness</h4>
+            <div>{{ form.dizziness(min=1, max=5) }}</div>
+            <div><output for="dizziness" id="dizziness-label">{{ form.dizziness.data }}</output></div>
+          </div>
+          <div class="scale-item">
+            <h4>Pain</h4>
+            <div>{{ form.pain(min=1, max=5) }}</div>
+            <div><output for="pain" id="pain-label">{{ form.pain.data }}</output></div>
+          </div>
+          <div class="scale-item">
+            <h4>Strength</h4>
+            <div>{{ form.strength(min=1, max=5) }}</div>
+            <div><output for="strength" id="strength-label">{{ form.strength.data }}</output></div>
+          </div>
+        </div>
+
+        <hr>
+
+        <h3>Take some time to reflect on how you're feeling.</h3>
+        <div class="journal-space">{{ form.journal() }}</div>
+        <div class="right-align">
+            <input type="submit" value="Submit">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateEnergy() {
+    newVal = document.getElementById('energy').value
+    document.getElementById('energy-label').value = newVal;
+  }
+  document.getElementById('energy').addEventListener("input", updateEnergy);
+
+  function updateAppetite() {
+    newVal = document.getElementById('appetite').value
+    document.getElementById('appetite-label').value = newVal;
+  }
+  document.getElementById('appetite').addEventListener("input", updateAppetite);
+
+  function updateDizziness() {
+    newVal = document.getElementById('dizziness').value
+    document.getElementById('dizziness-label').value = newVal;
+  }
+  document.getElementById('dizziness').addEventListener("input", updateDizziness);
+
+  function updatePain() {
+    newVal = document.getElementById('pain').value
+    document.getElementById('pain-label').value = newVal;
+  }
+  document.getElementById('pain').addEventListener("input", updatePain);
+
+  function updateStrength() {
+    newVal = document.getElementById('strength').value
+    document.getElementById('strength-label').value = newVal;
+  }
+  document.getElementById('strength').addEventListener("input", updateStrength);
+  
+</script>
+{% endblock %}

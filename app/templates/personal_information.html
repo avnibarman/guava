@@ -7,12 +7,12 @@
 
     <br>
 
-  <form method="POST" action="/personal">
+  <form method="POST" action="/personal_information">
       <div class="input-box">{{ form.hidden_tag() }}</div>
       <div class="input-box">{{ form.dob(size=20, placeholder="Date of Birth") }}</div>
-      <div class="input-box"> {{ form.current_location(size=20, placeholder="Location") }}</div>
+      <div class="input-box"> {{ form.current_location(size=20, placeholder="Country of Residence") }}</div>
       <div class="input-box"> {{ form.ethnicity(size=20, placeholder="Ethnicity") }}</div>
-      <div class="input-box"> {{ form.income(size=20, placeholder="Income") }}</div>
+      <div class="input-box"> {{ form.income(size=20, placeholder="Annual Income") }}</div>
 
       <input type="submit" value="Submit">
   </form>

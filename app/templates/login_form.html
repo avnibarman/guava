@@ -1,6 +1,15 @@
-<form method="POST" action="/">
-  {{ form.hidden_tag() }}
-  {{ form.username.label }} {{ form.username(size=20) }}
-  {{ form.password.label }} {{ form.password(size=20) }}
-  <input type="submit" value="Go">
-</form>
+{% extends "layout.html" %}
+{% block body %}
+  <div class='mainbox'>
+    <strong>Login</strong><br>
+    <br>
+  <form method="POST" action="/login">
+      {{ form.hidden_tag() }}
+      <br>
+      <div class="input-box"> {{ form.username(size=20, placeholder="Username") }}</div>
+      <div class="input-box"> {{ form.password(size=20, placeholder="Password") }}</div>
+      <br>
+      <input type="submit" value="Submit">
+  </form>
+
+{% endblock %}

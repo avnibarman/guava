@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="dashboard-wrap">
+  <div class="sidebar">
+      <ul>
+        <h4>{{ current_user.first_name }}</h4>
+        <li><a>Journal</a></li>
+        <div class="journal-subtype">
+          <li><a class="current-page">Daily</a></li>
+          <li><a>Memoir</a></li>
+        </div>
+        <li><a>Calendar</a></li>
+        <li><a>Memories</a></li>
+      </ul>
+  </div>
+  <div class="dashboard-box-outer">
+    <div class="dashboard-box">
+      <h4>Thanks for journaling! Check back in tomorrow to record a new entry.</h4>
+    </div>
+  </div>
+</div>
+{% endblock %}

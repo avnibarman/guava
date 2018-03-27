@@ -15,6 +15,8 @@ flask-wtf = "*"
 pytz = "*"
 flask-script = "*"
 requests = "*"
+passlib = "*"
+flask-login = "*"
 
 
 [dev-packages]

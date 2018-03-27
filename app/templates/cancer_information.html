@@ -2,14 +2,15 @@
 {% block body %}
 <script>
 </script>
+  <div class="mainbox">
+    <form class="flex-form" method="POST" action="/cancer_information">
+        {{ form.hidden_tag() }}
+        <div>Cancer Type: {{ form.cancer_type(size=20) }}</div>
+        <div>Diagnosis Year: {{ form.diagnosis_date_year(size=20) }}</div>
+        <div>Stage at time of diagnosis: {{ form.cancer_stage() }}</div>
 
-  <form method="POST" action="/">
-      {{ form.hidden_tag() }}
-      {{ form.cancer_type.label }} {{ form.cancer_type(size=20) }}
-      {{ form.diagnosis_date_year.label }} {{ form.diagnosis_date_year(size=20) }}
-      {{ form.cancer_stage.label }} {{ form.cancer_stage(size=20) }}
-
-      <input type="submit" value="Submit">
-  </form>
+        <input type="submit" value="Submit">
+    </form>
+  </div>
 
 {% endblock %}

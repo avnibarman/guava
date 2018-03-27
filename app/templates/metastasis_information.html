@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+<script>
+</script>
+
+  <div class="mainbox">
+    <form class="flex-form" method="POST" action="/metastasis_information">
+        {{ form.hidden_tag() }}
+        <div>{{ form.metastasis_site_1.label }} {{ form.metastasis_site_1() }}</div>
+        <div>{{ form.metastasis_diagnosis_date_year_1.label }} {{ form.metastasis_diagnosis_date_year_1(size=20) }}</div>
+        <div>{{ form.metastasis_site_2.label }} {{ form.metastasis_site_2() }}</div>
+        <div>{{ form.metastasis_diagnosis_date_year_2.label }} {{ form.metastasis_diagnosis_date_year_2(size=20) }}</div>
+        <div>{{ form.metastasis_site_3.label }} {{ form.metastasis_site_3() }}</div>
+        <div>{{ form.metastasis_diagnosis_date_year_3.label }} {{ form.metastasis_diagnosis_date_year_3(size=20) }}</div>
+        <div>{{ form.metastasis_site_4.label }} {{ form.metastasis_site_4() }}</div>
+        <div>{{ form.metastasis_diagnosis_date_year_4.label }} {{ form.metastasis_diagnosis_date_year_4(size=20) }}</div>
+        
+        <input type="submit" value="Submit">
+    </form>
+  </div>
+
+{% endblock %}
