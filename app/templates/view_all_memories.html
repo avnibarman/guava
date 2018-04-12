@@ -1,0 +1,19 @@
+{% extends "dashboard_layout.html" %}
+{% block inner_dashboard %}
+  <div class="col memory-col">
+    <div class="row smaller-text">
+      <div class="row left-align">
+        <input class="search" value="Search...">
+        <a class="btn small-btn" href="#">Search</a>
+      </div>
+    </div>
+    {% for memoir in memories %}
+      <div class="memory-page">
+        <div class="row">
+          <h4>{{memoir.title}}</h4>
+        </div>
+        <p>{{memoir.body}}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

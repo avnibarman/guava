@@ -11,7 +11,7 @@ from datetime import datetime
 import pytz
 import app.config as config
 from passlib.hash import sha256_crypt
-from flask_login import LoginManager, UserMixin, login_user, current_user
+# from flask_login import LoginManager, UserMixin, login_user, current_user
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -22,31 +22,31 @@ application.config.from_object(config)
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(application)
 
-class User(UserMixin):
-    def __init__(self, id, username, first_name):
-        self.id = id
-        self.username = username
-        self.first_name = first_name
+# class User(UserMixin):
+#     def __init__(self, id, username, first_name):
+#         self.id = id
+#         self.username = username
+#         self.first_name = first_name
     
-    @property
-    def is_active(self):
-        return True
-    @property
-    def is_authenticated(self):
-        return True
-    @property
-    def is_anonymous(self):
-        return False
+#     @property
+#     def is_active(self):
+#         return True
+#     @property
+#     def is_authenticated(self):
+#         return True
+#     @property
+#     def is_anonymous(self):
+#         return False
 
 
 
-login_manager = LoginManager()
-login_manager.init_app(application)
-@login_manager.user_loader
-def load_user(user_id):
-    account = db.session.query(User_Info).filter_by(user_id=user_id).first()
-    user = User(account.user_id, account.username, account.first_name)
-    return user
+# login_manager = LoginManager()
+# login_manager.init_app(application)
+# @login_manager.user_loader
+# def load_user(user_id):
+#     account = db.session.query(User_Info).filter_by(user_id=user_id).first()
+#     user = User(account.user_id, account.username, account.first_name)
+#     return user
 
 
 class User_Info(db.Model):
@@ -192,20 +192,20 @@ def hello_world():
 def login():
     form = forms.login_form()
     if form.validate_on_submit():
-        user_info = db.session.query(User_Info).filter_by(username=form.username.data).first()
-        user_id = user_info.user_id
-        user_object = load_user(user_id)
-        print("password: ", user_info.password)
-        if sha256_crypt.verify(form.password.data, user_info.password):
-            # yay they put in the right password
-            login_user(user_object)
-            print("Current User: ", current_user)
-            print("username: ", current_user.username)
-            print("id:", current_user.id)
-            return redirect('/daily_checkin')
-        else:
-            print("Incorrect login attempt.")
-            return 'Login incorrect. Please return to the login page and try again.'
+        # user_info = db.session.query(User_Info).filter_by(username=form.username.data).first()
+        # user_id = user_info.user_id
+        # user_object = load_user(user_id)
+        # print("password: ", user_info.password)
+        # if sha256_crypt.verify(form.password.data, user_info.password):
+        #     # yay they put in the right password
+        #     # login_user(user_object)
+        #     print("Current User: ", current_user)
+        #     print("username: ", current_user.username)
+        #     print("id:", current_user.id)
+        return redirect('/daily_checkin')
+        # else:
+        #     print("Incorrect login attempt.")
+        #     return 'Login incorrect. Please return to the login page and try again.'
     else:
         return render_template('login_form.html', form=form)
 
@@ -214,7 +214,10 @@ def login():
 def daily_checkin():
     today_formatted = "Tuesday March 27, 2018"
     form = forms.daily_checkin()
-    print("current id: ", current_user.id)
+    current_user = {}
+    # current_user["name"] = "Landon"
+    current_user["first_name"] = "Barbara"
+    current_user["id"] = 0
     if form.validate_on_submit():
         print("form validated")
         new_log = Daily_Log(
@@ -234,8 +237,145 @@ def daily_checkin():
         return render_template(
             'daily_checkin.html', 
             today_formatted=today_formatted,
-            form=form
+            form=form,
+            current_user=current_user
         )
+
+@application.route('/view_memoirs', methods=['GET', 'POST'])
+def view_memoirs():
+    current_user = {}
+    current_user["first_name"] = "Barbara"
+    current_user["id"] = 0
+    # leaving these just so I know the schemas!
+    # memoir = {
+    #     "type": "portal"
+    # }
+    # memoir = {
+    #     "type": "directory",
+    #     "title": "Table of Contents",
+    #     "sections": [
+    #         {"title": "Childhood"},
+    #         {"title": "Teen Years"},
+    #         {"title": "Early Adulthood"},
+    #         {"title": "Late Adulthood"}
+    #     ]
+    # }
+    memoir = {
+        "type": "entry",
+        "title": "Memorable Road Trip",
+        "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    }
+    return render_template(
+        'view_memoirs.html',
+        current_user=current_user,
+        memoir=memoir
+    )
+
+
+@application.route('/enter', methods=['GET', 'POST'])
+def enter_memoirs():
+    current_user = {}
+    current_user["first_name"] = "Barbara"
+    current_user["id"] = 0
+    memoir = {
+        "type": "portal"
+    }
+    return render_template(
+        'view_memoirs.html',
+        current_user=current_user,
+        memoir=memoir
+    )
+
+
+@application.route('/memoir_entry', methods=['GET', 'POST'])
+def memoir_entry():
+    current_user = {}
+    current_user["first_name"] = "Barbara"
+    current_user["id"] = 0
+    memoir = {
+        "type": "entry",
+        "title": "Memorable Road Trip",
+        "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    }
+    return render_template(
+        'view_memoirs.html',
+        current_user=current_user,
+        memoir=memoir
+    )
+
+
+@application.route('/memoir_table_of_contents', methods=['GET', 'POST'])
+def memoir_table_of_contents():
+    current_user = {}
+    current_user["first_name"] = "Barbara"
+    current_user["id"] = 0
+    memoir = {
+        "type": "directory",
+        "title": "Table of Contents",
+        "sections": [
+            {"title": "Childhood"},
+            {"title": "Teen Years"},
+            {"title": "Early Adulthood"},
+            {"title": "Late Adulthood"}
+        ]
+    }
+    return render_template(
+        'view_memoirs.html',
+        current_user=current_user,
+        memoir=memoir
+    )
+
+@application.route('/view_all_memories', methods=['GET', 'POST'])
+def view_all_memories():
+    current_user = {}
+    current_user["first_name"] = "Landon"
+    current_user["id"] = 0
+    # leaving these just so I know the schemas!
+    memories = [
+        {
+            "chapter": "childhood",
+            "tags": [
+                "youth",
+                "family"
+            ],
+            "title": "Recall a memorable roadtrip",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        },
+        {
+            "chapter": "childhood",
+            "tags": [
+                "youth"
+            ],
+            "title": "Recall a moment in your life when you felt proud",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sunt in culpa qui officia deserunt mollit anim id est laborum."
+        },
+        {
+            "chapter": "childhood",
+            "tags": [
+                "school",
+                "shenanigans"
+            ],
+            "title": "Recall a favorite memory from school",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        }
+    ]
+    return render_template(
+        'view_all_memories.html',
+        current_user=current_user,
+        memories=memories
+    )
+
+@application.route('/submit_memory', methods=['GET', 'POST'])
+def submit_memory():
+    current_user = {}
+    current_user["first_name"] = "Barbara"
+    current_user["id"] = 0
+    memoir = {"title": "Reflect on a time when you felt proud."}
+    return render_template(
+        'submit_memory.html',
+        current_user=current_user,
+        memoir=memoir
+    )
 
 @application.route('/thanks', methods=['GET', 'POST'])
 def thanks():

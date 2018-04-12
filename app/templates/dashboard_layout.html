@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="dashboard-wrap">
+  <div class="sidebar">
+      <ul>
+        <h4>{{ current_user.first_name }}</h4>
+        <li ><a href="/enter">Home</a></li>
+        <li ><a href="/view_all_memories">View All Entries</a></li>
+        <li><a href="/submit_memory">Write New Entry</a></li>
+        <li><a href="">Cancerbase</a></li>
+      </ul>
+  </div>
+  <div class="inner-page-wrap">
+    {% block inner_dashboard %}{% endblock %}
+  </div>
+</div>
+{% endblock %}

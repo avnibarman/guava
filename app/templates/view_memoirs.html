@@ -1,0 +1,41 @@
+{% extends "dashboard_layout.html" %}
+{% block inner_dashboard %}
+  {% if memoir.type == "portal" %}
+  <div class="journal-page portal">
+    <p>{{current_user.first_name}}'s</p>
+    <p><b>Memoir Collection</b></p>
+    <br/>
+    <a class="btn" href="/memoir_table_of_contents">Enter</a>
+  </div>
+  <div class="col margin-bump">
+    <a class="btn color-teal" href="submit_memory">Add A Memory</a>
+  </div>
+  {% elif memoir.type == "directory" %}
+    <div class="journal-page">
+      <div class="row left-align pad-norm">
+        <a href="enter">back</a>
+      </div>
+      <p class="bigger">{{current_user.first_name}}'s <b>Memoir Collection</b></p>
+      <br/>
+      <p><b>{{memoir.title}}</b></p>
+      <hr>
+      {% for section in memoir.sections %}
+        <p>{{section.title}}</p>
+      {% endfor %}
+      <br/>
+    </div>
+  {% elif memoir.type == "entry" %}
+    <div class="entry-invisadiv">
+      <div class="entry-page">
+        <div class="x"><a href="#">x</a></div>
+        <div class="row">
+          <a href="#" class="btn">Edit</a>
+          <h4>{{memoir.title}}</h4>
+          <a href="#" class="btn btn-ghost">Delete</a>
+        </div>
+        <p>{{memoir.body}}</p>
+        <br/>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
