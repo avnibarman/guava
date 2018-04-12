@@ -17,6 +17,7 @@ flask-script = "*"
 requests = "*"
 passlib = "*"
 flask-login = "*"
+gunicorn = "*"
 
 
 [dev-packages]
