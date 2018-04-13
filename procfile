@@ -1,1 +1,1 @@
-web: gunicorn application:application --log-file=-
+web: gunicorn --chdir app __init__:application --log-file=-
