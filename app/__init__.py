@@ -1,3 +1,4 @@
+
 from flask import Flask, current_app, request, render_template, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField
@@ -241,34 +242,82 @@ def daily_checkin():
             current_user=current_user
         )
 
-@application.route('/view_memoirs', methods=['GET', 'POST'])
-def view_memoirs():
+memoirs = [
+  {
+        "type": "entry",
+        "title": "Wedding Day",
+        "chapter": "Early Adulthood",
+        "body": """
+          Oh my goodness, my wedding day. Well first a little backstory.
+          <br>
+          My parents were very much against my wedding to Noah, so my wedding day, it was a small thing.
+          <br>
+          It’s funny because in some ways I felt like it was done mostly for my parents, in some sense, but also against them as well.
+          <br>
+          It was all kind of everyday. I remember shopping in the mall for a white dress that I could wear for my wedding day and then going and getting my hair braided up pretty. My friend Kimberly arranged the bouquet, which was sweet, but I had already chosen the flowers I wanted because they symbolize the different women in my family to me. 
+          <br>
+          Hmm, who was there? Sara Williams, my childhood friend, came. And John Miller. And Kimberly and her boyfriend at the time, Brandon. Noah’s mentor from Israel was there, Moshe. And a friend of Noah’s from grad school, Paul. And then Angela, my friend from grad school came – she’s the one who took all the pictures that appear in my album. And Yael and Eric Simmons came too, because Yael was a friend of Noah’s. And Gary Stone was there, Gary was a colleague of Noah’s at the time. Oh and Mom and Dad came, they reluctantly showed up and it was awkward... it was ok, that was it. 
+          <br>
+          And then we got to move into Married Student Housing! Because we couldn’t possibly live in Married Student Housing before that, that was impossible back then – It was for married people only, not just people living together. That was one of the motivators in the whole thing.
+          <br>
+          There was no particular honeymoon. We tried driving up to Maine – I wanted to go see the Bay of Fundy, where there’s a big permanent whirlpool. We made it to Bar Harbor, Maine and Noah was so—I don’t know—unhappy with the notion of taking a vacation that we had to turn back. So we never quite had that honeymoon. "
+        """
+    },
+
+    {
+        "type": "entry",
+        "title": "Childhood Neighborhood",
+        "chapter": "Childhood",
+        "body": """
+          I lived in a suburb of Chicago—a far western suburb so not all that close to Chicago—called Elmhurst, Illinois. I lived on a block, in a split-level house that sat on a quarter acre. I would walk to elementary school which was a few blocks away, or down the block to pick up the school bus that would take us to high school later on. It was the kind of neighborhood where you look down the street and you knew who the neighbors were. The kids would all get together to play after school or during summer vacation. Our house had a backyard and a front yard and you could walk to most places from it; the nearest strip mall was a little under a mile away.
+          <br>
+          It was very much the suburbia that is characteristic of the Midwest; there were no fences.
+          <br>
+          Well, I remember when our neighbors put up fences around their backyard and how there was some jockeying about where a fence goes and in whose property line and stupid things like that—but I guess that’s still present today.
+          Eventually it all got fenced off.
+          <br>
+          My mom was one of the only moms that worked. And she sometimes got frustrated because all the other moms would go “Oh, you’re missing out on the best years of your kids’ lives!” and she would say back to them “Whatever! You have no clue!” We had a sitter instead, Augusta, who was black, and that was very unusual for our town. Our town was homogenous, very white.
+        """
+    },
+
+    {
+        "type": "entry",
+        "title": "Bad Weather Adventures",
+        "chapter": "Teen Years",
+        "body": """
+          I went to a summer camp that really shaped my life for 4 years in Bloomington, Indiana.
+          <br>
+          At the beginning of every summer, there was a staff week where we’d all get together before camp started. That week the Counselors in Training (CIT’s) would get trained, and old counselors would share wisdom. For the week, the staffs gets split into different speciality teams—there was caving, canoeing, hiking, belaying, etc. etc. 
+          <br>
+          I was a hiking specialty my first year. It was my very first hike as a CIT. The sun was setting, it was a gorgeous sunset, with beautiful, full clouds. About an hour later it started pouring. The forecast did not call for rain, we didn’t have anything prepared. 
+          <br>
+          Our backpacks were drenched, our tents were drenched, WE were drenched. It was raining so hard that there was a flash flood warning and the trail got washed away! We completely lost track of the trail and our direction. We were supposed to be following an easy, relaxing 12 mile hike, but because of the rain it turned into 30 miles of slogging through mud. We didn’t have any phones or other means of contact to get help, so we had to rely on metal compasses to find our way through the forest.
+          <br>
+          It took us three days to get back to base camp. 
+        """
+    }
+]
+
+def search_memoirs(key, value):
+    ret = []
+    for memoir in memoirs:
+        if memoir[key] == value:
+            ret.append(memoir)
+    return ret
+
+
+@application.route('/view_memoirs/<entry_title>', methods=['GET', 'POST'])
+def view_memoirs(entry_title):
     current_user = {}
     current_user["first_name"] = "Barbara"
     current_user["id"] = 0
-    # leaving these just so I know the schemas!
-    # memoir = {
-    #     "type": "portal"
-    # }
-    # memoir = {
-    #     "type": "directory",
-    #     "title": "Table of Contents",
-    #     "sections": [
-    #         {"title": "Childhood"},
-    #         {"title": "Teen Years"},
-    #         {"title": "Early Adulthood"},
-    #         {"title": "Late Adulthood"}
-    #     ]
-    # }
-    memoir = {
-        "type": "entry",
-        "title": "Memorable Road Trip",
-        "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    }
+    memoir = search_memoirs("title", entry_title)[0]
+
     return render_template(
         'view_memoirs.html',
         current_user=current_user,
-        memoir=memoir
+        memoir=memoir,
+        memoir_chapter=memoir['chapter']
     )
 
 
@@ -297,10 +346,12 @@ def memoir_entry():
         "title": "Memorable Road Trip",
         "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     }
+    memoir_chapter = "childhood"
     return render_template(
         'view_memoirs.html',
         current_user=current_user,
-        memoir=memoir
+        memoir=memoir,
+        memoir_chapter=memoir_chapter
     )
 
 
@@ -322,7 +373,26 @@ def memoir_table_of_contents():
     return render_template(
         'view_memoirs.html',
         current_user=current_user,
-        memoir=memoir
+        memoir=memoir,
+        backlink="/enter"
+    )
+
+@application.route('/memoir_table_of_contents/<chapter>', methods=['GET', 'POST'])
+def table_of_contents(chapter):
+    current_user = {}
+    current_user["first_name"] = "Barbara"
+    current_user["id"] = 0
+    # sections = /
+    memoir = {
+        "type": "directory",
+        "title": chapter,
+        "sections": search_memoirs("chapter", chapter)
+    }
+    return render_template(
+        'view_memoirs.html',
+        current_user=current_user,
+        memoir=memoir,
+        backlink="/memoir_table_of_contents"
     )
 
 @application.route('/view_all_memories', methods=['GET', 'POST'])
@@ -331,34 +401,7 @@ def view_all_memories():
     current_user["first_name"] = "Landon"
     current_user["id"] = 0
     # leaving these just so I know the schemas!
-    memories = [
-        {
-            "chapter": "childhood",
-            "tags": [
-                "youth",
-                "family"
-            ],
-            "title": "Recall a memorable roadtrip",
-            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        },
-        {
-            "chapter": "childhood",
-            "tags": [
-                "youth"
-            ],
-            "title": "Recall a moment in your life when you felt proud",
-            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sunt in culpa qui officia deserunt mollit anim id est laborum."
-        },
-        {
-            "chapter": "childhood",
-            "tags": [
-                "school",
-                "shenanigans"
-            ],
-            "title": "Recall a favorite memory from school",
-            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        }
-    ]
+    memories = memoirs
     return render_template(
         'view_all_memories.html',
         current_user=current_user,

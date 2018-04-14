@@ -13,27 +13,41 @@
   {% elif memoir.type == "directory" %}
     <div class="journal-page">
       <div class="row left-align pad-norm">
-        <a href="enter">back</a>
+        <a href="{{backlink}}">back</a>
       </div>
       <p class="bigger">{{current_user.first_name}}'s <b>Memoir Collection</b></p>
       <br/>
       <p><b>{{memoir.title}}</b></p>
       <hr>
-      {% for section in memoir.sections %}
-        <p>{{section.title}}</p>
-      {% endfor %}
+      {% if memoir.sections %}
+        {% for section in memoir.sections %}
+          {% if section.body %}
+            <a href="/view_memoirs/{{section.title}}">{{section.title}}</a>
+          {% else %}
+            <a href="/memoir_table_of_contents/{{section.title}}">{{section.title}}</a>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <p>You haven't written any</p>
+        <p>memories for this section yet.</p>
+        <a href="/submit_memory">Add a memory</a>
+      {% endif %}
       <br/>
     </div>
   {% elif memoir.type == "entry" %}
     <div class="entry-invisadiv">
       <div class="entry-page">
-        <div class="x"><a href="#">x</a></div>
+        <div class="x"><a href="/memoir_table_of_contents/{{memoir_chapter}}">x</a></div>
         <div class="row">
           <a href="#" class="btn">Edit</a>
           <h4>{{memoir.title}}</h4>
           <a href="#" class="btn btn-ghost">Delete</a>
         </div>
-        <p>{{memoir.body}}</p>
+        <p>
+            {% autoescape false %}
+              {{memoir.body}}
+            {% endautoescape %}
+        </p>
         <br/>
       </div>
     </div>

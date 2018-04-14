@@ -12,7 +12,7 @@
         <div class="row">
           <h4>{{memoir.title}}</h4>
         </div>
-        <p>{{memoir.body}}</p>
+        <p>{% autoescape false %} {{memoir.body}} {% endautoescape %}</p>
       </div>
     {% endfor %}
   </div>

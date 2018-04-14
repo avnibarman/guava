@@ -4,3 +4,13 @@
   <div class="topbar">Cancer<b>Base</b></div>
   {% block body %}{% endblock %}
 </div>
+<script>
+  function clear_input(el) {
+    console.log(el)
+    el.currentTarget.value = ""
+  }
+  text_input = document.getElementsByTagName("input")
+  for (var i = 0; i < text_input.length; i++) {
+    text_input[i].onclick = clear_input
+  }
+</script>

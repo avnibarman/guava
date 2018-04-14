@@ -20,6 +20,18 @@ body {
 	top: 0;
 }
 
+a { 
+	color: rgb(103, 206, 206);
+}
+
+a:visited { 
+	color: rgb(103, 206, 206);
+}
+
+a:active { 
+	color: rgb(103, 206, 206);
+}
+
 hr {
 	margin-top: 40px;
 	margin-bottom: 40px;
@@ -155,10 +167,10 @@ input[type=submit] {
 }
 
 .sidebar img {
-	height: 16px;
-	display: inline-block;
+	width: 80%;
+	display: block;
 	margin: 0 8px;
-	margin-left: 20px;
+	padding-left: 7%;
 }
 
 .sidebar h4 {
@@ -292,6 +304,12 @@ input[type=submit] {
 	margin: 10px;
 }
 
+a.btn {
+	color: white;
+}
+
+
+
 .journal-page .btn {
 	border-radius: 25px;
 	padding: 7px;
@@ -314,6 +332,11 @@ input[type=submit] {
 	text-align: center;
 	width: 100px;
 	margin: 10px;
+	transition: 0.1s ease;
+}
+
+ .entry-page a.btn:hover {
+	background-color: rgb(106, 193, 233);
 }
 
 .color-teal {
@@ -325,7 +348,7 @@ input[type=submit] {
 }
 
 .entry-page {
-	max-width: 70%;
+	max-width: 60%;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	display: flex;
 	flex-direction: column;
@@ -335,6 +358,8 @@ input[type=submit] {
 	border-radius: 3px;
 	margin: 20px;
 	padding: 20px;
+	padding-left: 40px;
+	padding-right: 40px;
 }
 
 .entry-invisadiv {
@@ -349,10 +374,23 @@ input[type=submit] {
 	background-color: rgb(241, 246, 253);
 	border: 1px solid #333;
 	color: #333;
+	transition: 0.1s ease;
+}
+
+.entry-page a.btn-ghost:hover {
+	background-color: rgb(228, 106, 106);
+	color: #333;
+	border: 1px solid transparent;
 }
 
 .entry-page p {
 	font-size: 0.7em;
+}
+
+.memory-page p br {
+	display: block;
+	margin: 10px;
+	content: " ";
 }
 
 .x {
@@ -538,4 +576,13 @@ select {
 	border-radius: 20px;
 	border: 1px solid #999;
 	width: 500px;
+}
+
+#title-input {
+	font-weight: bold;
+	font-size: 1em;
+}
+
+input:focus {
+	outline: none;
 }
