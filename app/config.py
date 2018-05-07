@@ -18,17 +18,22 @@ CSRF_ENABLED     = True
 # signing the data. 
 CSRF_SESSION_KEY = "secret"
 
-# Secret key for signing cookies
-with open (os.path.join("app", "aws-key.pem"), "r") as myfile:
+# Use a secret key to sign cookies. Load it from "key.pem"
+with open (os.path.join("app", "key.pem"), "r") as myfile:
     secret_key = myfile.read()
+# if there's no key.pem file, just use "secret" as the secret key.
 SECRET_KEY = "secret"
 
 SECRET_KEY=secret_key
+# WTForm needs a csrf secret key as well. 
+# In production, this should probably be read from a file.
 WTF_CSRF_SECRET_KEY="a csrf secret key"
 
 SQLALCHEMY_DATABASE_URI='postgresql://localhost/cbdblocal'
 
 DEBUG=True
 
+# if this is a production environment, use the live Postgres server, instead of a local one.
+# this will need to be changed to work with CancerBase's server
 if "PRODUCTION" in os.environ:
     SQLALCHEMY_DATABASE_URI='postgresql://dre:disruption@ aa2qmlw8zausf5.cjvamjemslrm.us-west-1.rds.amazonaws.com:5432/ebdb'

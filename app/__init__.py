@@ -4,7 +4,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
 import app.forms as forms
-# import signup_form, login_form
 import os
 from flask_sqlalchemy import SQLAlchemy
 import logging
@@ -12,7 +11,6 @@ from datetime import datetime
 import pytz
 import app.config as config
 from passlib.hash import sha256_crypt
-# from flask_login import LoginManager, UserMixin, login_user, current_user
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -23,224 +21,25 @@ application.config.from_object(config)
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(application)
 
-# class User(UserMixin):
-#     def __init__(self, id, username, first_name):
-#         self.id = id
-#         self.username = username
-#         self.first_name = first_name
-    
-#     @property
-#     def is_active(self):
-#         return True
-#     @property
-#     def is_authenticated(self):
-#         return True
-#     @property
-#     def is_anonymous(self):
-#         return False
 
-
-
-# login_manager = LoginManager()
-# login_manager.init_app(application)
-# @login_manager.user_loader
-# def load_user(user_id):
-#     account = db.session.query(User_Info).filter_by(user_id=user_id).first()
-#     user = User(account.user_id, account.username, account.first_name)
-#     return user
-
-
-class User_Info(db.Model):
-    __tablename__ = 'accounts'
-
-    user_id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(355), unique=True, nullable=False)
-    password = db.Column(db.String(100))
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    created_on = db.Column(db.TIMESTAMP)
-    last_login = db.Column(db.TIMESTAMP)
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
-    cancer_type = db.Column(db.String(50), nullable=False)
-
-    def __init__(self, email, password, username, first_name, last_name, cancer_type):
-        self.email = email
-        self.password = sha256_crypt.encrypt(password)
-        self.username = username
-        self.first_name = first_name
-        self.last_name = last_name
-        self.cancer_type = cancer_type
-        now = datetime.now()
-        pst = pytz.timezone('America/Los_Angeles')
-        self.created_on = pst.localize(now)
-        self.last_login = None
-
-    def __repr__(self):
-        return '<id {}>'.format(self.user_id)
-
-
-class Personal_Information(db.Model):
-    __tablename__ = 'personal_info'
-
-    user_id = db.Column(db.Integer, primary_key=True)
-    dob = db.Column(db.Integer, nullable=False)
-    current_location = db.Column(db.String(255))
-    ethnicity = db.Column(db.String(50), nullable=True)
-    income = db.Column(db.Integer, nullable=True)
-    created_on = db.Column(db.TIMESTAMP)
-
-    def __init__(self, dob, current_location, ethnicity, income):
-        self.dob = dob
-        self.current_location = current_location
-        self.ethnicity = ethnicity
-        self.income = income
-
-    def __repr__(self):
-        return '<id {}>'.format(self.user_id)
-
-
-class Cancer_Information(db.Model):
-    __tablename__ = 'cancer_info'
-
-    user_id = db.Column(db.Integer, primary_key=True)
-    cancer_type = db.Column(db.String(50), nullable=False)
-    diagnosis_date_year = db.Column(db.String(4))
-    cancer_stage = db.Column(db.Integer, nullable=True)
-
-    def __init__(self, cancer_type, diagnosis_date_year, cancer_stage):
-        self.cancer_type = cancer_type
-        self.diagnosis_date_year = diagnosis_date_year
-        self.cancer_stage = cancer_stage
-
-    def __repr__(self):
-        return '<id {}>'.format(self.user_id)
-
-
-class Metastasis_Information(db.Model):
-    __tablename__ = 'metastasis_info'
-
-    user_id = db.Column(db.Integer, primary_key=True)
-    metastasis_site_1 = db.Column(db.String(50), nullable=True)
-    metastasis_diagnosis_date_year_1 = db.Column(db.String(4))
-    metastasis_site_2 = db.Column(db.String(50), nullable=True)
-    metastasis_diagnosis_date_year_2 = db.Column(db.String(4))
-    metastasis_site_3 = db.Column(db.String(50), nullable=True)
-    metastasis_diagnosis_date_year_3 = db.Column(db.String(4))
-    metastasis_site_4 = db.Column(db.String(50), nullable=True)
-    metastasis_diagnosis_date_year_4 = db.Column(db.String(4))
-
-    def __init__(self, metastasis_site_1, metastasis_diagnosis_date_year_1, 
-        metastasis_site_2, metastasis_diagnosis_date_year_2,
-        metastasis_site_3, metastasis_diagnosis_date_year_3,
-        metastasis_site_4, metastasis_diagnosis_date_year_4):
-        self.metastasis_site_1 = metastasis_site_1
-        self.metastasis_diagnosis_date_year_1 = metastasis_diagnosis_date_year_1
-        self.metastasis_site_2 = metastasis_site_2
-        self.metastasis_diagnosis_date_year_2 = metastasis_diagnosis_date_year_2
-        self.metastasis_site_3 = metastasis_site_3
-        self.metastasis_diagnosis_date_year_3 = metastasis_diagnosis_date_year_3
-        self.metastasis_site_4 = metastasis_site_4
-        self.metastasis_diagnosis_date_year_4 = metastasis_diagnosis_date_year_4
-
-    def __repr__(self):
-        return '<id {}>'.format(self.user_id)
-
-
-class Daily_Log(db.Model):
-    __tablename__ = 'daily_logs'
-    log_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-    subjective_wellbeing = db.Column(db.Integer)
-    energy = db.Column(db.Integer)
-    appetite = db.Column(db.Integer)
-    dizziness = db.Column(db.Integer)
-    pain = db.Column(db.Integer)
-    strength = db.Column(db.Integer)
-    energy = db.Column(db.Integer)
-    journal = db.Column(db.String(1000), nullable=True)
-
-    def __init__(self, 
-        user_id, 
-        subjective_wellbeing, 
-        energy, 
-        appetite,
-        dizziness, 
-        pain,
-        strength, 
-        journal):
-        self.subjective_wellbeing = subjective_wellbeing
-        self.energy = energy
-        self.appetite = appetite
-        self.dizziness = dizziness
-        self.pain = pain
-        self.strength = strength
-        self.journal = journal
-    
-    def __repr__(self):
-        return '<id {}>'.format(self.log_id)
-
-
-@application.route('/', methods=['GET', 'POST'])
+@application.route('/', methods=['GET'])
 def hello_world():
-    if request.method == 'POST':
-        print(request.json)
-        return 'Thanks for returning!'
+    """
+    This route simply returns a static index page. 
+    This could be used as a landing page or portal to the app.
+    """
     if request.method == 'GET':
         return current_app.send_static_file('index.html')
 
+# the memoirs list should be pulled from a database.
+# For now, it's simply created statically.
 
-@application.route('/login', methods=['GET', 'POST'])
-def login():
-    form = forms.login_form()
-    if form.validate_on_submit():
-        # user_info = db.session.query(User_Info).filter_by(username=form.username.data).first()
-        # user_id = user_info.user_id
-        # user_object = load_user(user_id)
-        # print("password: ", user_info.password)
-        # if sha256_crypt.verify(form.password.data, user_info.password):
-        #     # yay they put in the right password
-        #     # login_user(user_object)
-        #     print("Current User: ", current_user)
-        #     print("username: ", current_user.username)
-        #     print("id:", current_user.id)
-        return redirect('/daily_checkin')
-        # else:
-        #     print("Incorrect login attempt.")
-        #     return 'Login incorrect. Please return to the login page and try again.'
-    else:
-        return render_template('login_form.html', form=form)
-
-
-@application.route('/daily_checkin', methods=['GET', 'POST'])
-def daily_checkin():
-    today_formatted = "Tuesday March 27, 2018"
-    form = forms.daily_checkin()
-    current_user = {}
-    # current_user["name"] = "Landon"
-    current_user["first_name"] = "Barbara"
-    current_user["id"] = 0
-    if form.validate_on_submit():
-        print("form validated")
-        new_log = Daily_Log(
-            current_user.id,
-            form.subjective_wellbeing.data, 
-            form.energy.data, 
-            form.appetite.data, 
-            form.dizziness.data, 
-            form.pain.data, 
-            form.strength.data,
-            form.journal.data
-        )
-        db.session.add(new_log)
-        db.session.commit()
-        return redirect('thanks')
-    else:
-        return render_template(
-            'daily_checkin.html', 
-            today_formatted=today_formatted,
-            form=form,
-            current_user=current_user
-        )
+# A memoir entry is a dictionary with the following fields:
+# type: a string that is "entry",
+# title: a string representing the title of the entry, as set by a user.
+# chapter: a string that is one of 
+#       ("Childhood", "Teen Years", "Early Adulthood", or "Later Adulthood")
+# body: a string that represents the HTML to be placed inside the paragraph on an entry
 
 memoirs = [
   {
@@ -298,7 +97,20 @@ memoirs = [
     }
 ]
 
+
 def search_memoirs(key, value):
+    """
+    This is a simple helper function to find a list of items that 
+    match search criteria in the memoirs list.
+    
+    arguments:
+    key -- the key of the memoir entry to consider
+    value -- the value of the memoir entry to search for
+
+    returns:
+    a list of memoirs that have the specified key value pair in them.
+    if none match the criteria, it returns an empty list.
+    """
     ret = []
     for memoir in memoirs:
         if memoir[key] == value:
@@ -308,6 +120,14 @@ def search_memoirs(key, value):
 
 @application.route('/view_memoirs/<entry_title>', methods=['GET', 'POST'])
 def view_memoirs(entry_title):
+    """
+    This route is for viewing a specific memoir in the memoir object.
+
+    arguments:
+    entry_title -- the title of the entry to show.
+    """
+    # current_user should actually be dealt with using some session management library pulling from database.
+    # for now it's just static
     current_user = {}
     current_user["first_name"] = "Barbara"
     current_user["id"] = 0
@@ -323,9 +143,17 @@ def view_memoirs(entry_title):
 
 @application.route('/enter', methods=['GET', 'POST'])
 def enter_memoirs():
+    """
+    This is the first page someone should see when using the Horizon app.
+    It's just a simple portal to the experience.
+    """
+    # again, current_user is an object that should be pulled from the session after someone logs in.
     current_user = {}
     current_user["first_name"] = "Barbara"
     current_user["id"] = 0
+
+    # since this is using the view_memoirs template, you must include a memoir object.
+    # give it "type": "portal" to have the template render the correct page.
     memoir = {
         "type": "portal"
     }
@@ -336,30 +164,26 @@ def enter_memoirs():
     )
 
 
-@application.route('/memoir_entry', methods=['GET', 'POST'])
-def memoir_entry():
-    current_user = {}
-    current_user["first_name"] = "Barbara"
-    current_user["id"] = 0
-    memoir = {
-        "type": "entry",
-        "title": "Memorable Road Trip",
-        "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    }
-    memoir_chapter = "childhood"
-    return render_template(
-        'view_memoirs.html',
-        current_user=current_user,
-        memoir=memoir,
-        memoir_chapter=memoir_chapter
-    )
-
-
 @application.route('/memoir_table_of_contents', methods=['GET', 'POST'])
 def memoir_table_of_contents():
+    """
+    After clicking the "enter" button on the "/enter" route, the user is taken to 
+    the table of contents.
+
+    The root page of the table of contents simply lists the four sections of
+    the memoir that we've defined: Childhood, Teen years, Early Adulthood, and
+    Late Adulthood.
+    """
     current_user = {}
     current_user["first_name"] = "Barbara"
     current_user["id"] = 0
+
+    # since this route uses the view_memoirs template, it expects a memoir dictionary.
+    # for table of contents pages, it uses a dictionary with "type": "directory" as
+    # one of the key value pairs. The other fields it expects are:
+    # "title": A string- The title for this "page" of the "book".
+    # "sections": A list of dicts of the form {"title": string} where each section is a link
+    # to another page.
     memoir = {
         "type": "directory",
         "title": "Table of Contents",
@@ -379,10 +203,19 @@ def memoir_table_of_contents():
 
 @application.route('/memoir_table_of_contents/<chapter>', methods=['GET', 'POST'])
 def table_of_contents(chapter):
+    """
+    This is another table of contents page that shows the contents of a specific life chapter.
+
+    arguments:
+    chapter -- the name of the chapter to view the contents of.
+            should be one of ("Childhood", "Teen Years", "Early Adulthood", or "Later Adulthood")
+    """
     current_user = {}
     current_user["first_name"] = "Barbara"
     current_user["id"] = 0
-    # sections = /
+
+    # same as the memoir_table_of_contents route, it uses a dictionary of type "directory"
+    # it dynamically gets the chapters from the memoir list using the search_memoirs function
     memoir = {
         "type": "directory",
         "title": chapter,
@@ -397,10 +230,14 @@ def table_of_contents(chapter):
 
 @application.route('/view_all_memories', methods=['GET', 'POST'])
 def view_all_memories():
+    """
+    This is a page for viewing and searching through all the memoirs that have been created.
+    """
     current_user = {}
-    current_user["first_name"] = "Landon"
+    current_user["first_name"] = "Barbara"
     current_user["id"] = 0
-    # leaving these just so I know the schemas!
+
+    # uses full memoirs list
     memories = memoirs
     return render_template(
         'view_all_memories.html',
@@ -410,71 +247,16 @@ def view_all_memories():
 
 @application.route('/submit_memory', methods=['GET', 'POST'])
 def submit_memory():
+    """
+    This is a page for writing new memories.
+    Currently it doesn't save the memoir anywhere, but in the future
+    it should post it to a database.
+    """
     current_user = {}
     current_user["first_name"] = "Barbara"
     current_user["id"] = 0
-    memoir = {"title": "Reflect on a time when you felt proud."}
+
     return render_template(
         'submit_memory.html',
-        current_user=current_user,
-        memoir=memoir
+        current_user=current_user
     )
-
-@application.route('/thanks', methods=['GET', 'POST'])
-def thanks():
-    return render_template('thanks.html')
-
-@application.route('/signup', methods=('GET', 'POST'))
-def signup():
-    form = forms.signup_form()
-    if form.validate_on_submit():
-        new_user = User_Info(form.email.data, form.password.data, form.username.data, form.first_name.data, form.last_name.data, form.cancer_type.data)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect('/personal_information')
-    else:
-        return render_template('signup_form.html', form=form)
-
-
-@application.route('/personal_information', methods=('GET', 'POST'))
-def personal_information():
-    form = forms.personal_information()
-    if form.validate_on_submit():
-        user_info = Personal_Information(form.dob.data, form.current_location.data, form.ethnicity.data, form.income.data)
-        db.session.add(user_info)
-        db.session.commit()
-        return redirect('/cancer_information')
-    else:
-        return render_template('personal_information.html', form=form)
-
-
-@application.route('/cancer_information', methods=('GET', 'POST'))
-def cancer_information():
-    form = forms.cancer_information()
-    if form.validate_on_submit():
-        cancer_info = Cancer_Information(form.cancer_type.data, form.diagnosis_date_year.data, form.cancer_stage.data)
-        db.session.add(cancer_info)
-        db.session.commit()
-        return redirect('/metastasis_information')
-    else:
-        return render_template('cancer_information.html', form=form)
-
-
-@application.route('/metastasis_information', methods=('GET', 'POST'))
-def metastasis_information():
-    form = forms.metastasis_information()
-    if form.validate_on_submit():
-        metastasis_info = Metastasis_Information(
-            form.metastasis_site_1.data, 
-            form.metastasis_diagnosis_date_year_1.data, 
-            form.metastasis_site_2.data,
-            form.metastasis_diagnosis_date_year_2.data, 
-            form.metastasis_site_3.data,
-            form.metastasis_diagnosis_date_year_3.data, 
-            form.metastasis_site_4.data,
-            form.metastasis_diagnosis_date_year_4.data
-        )
-        db.session.add(metastasis_info)
-        db.session.commit()
-        return redirect('/login')
-    return render_template('metastasis_information.html', form=form)
