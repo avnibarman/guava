@@ -25,11 +25,11 @@ db = SQLAlchemy(application)
 @application.route('/', methods=['GET'])
 def hello_world():
     """
-    This route simply returns a static index page. 
+    This route simply redirects to the enter page for now. 
     This could be used as a landing page or portal to the app.
     """
     if request.method == 'GET':
-        return current_app.send_static_file('index.html')
+        return redirect('enter')
 
 # the memoirs list should be pulled from a database.
 # For now, it's simply created statically.
